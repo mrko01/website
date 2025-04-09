@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRKO.XYZ - Coming Soon</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: white;
+            font-family: 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #0a0a0a;
+            position: relative;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            padding: 20px;
+            z-index: 2;
+        }
+        
+        .main-title {
+            font-size: 7rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin: 0;
+            opacity: 0;
+            line-height: 1;
+            background: linear-gradient(135deg, #000 0%, #444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            position: relative;
+        }
+        
+        .sub-title {
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 8px;
+            margin-top: 16px;
+            opacity: 0;
+            color: #444;
+            text-transform: uppercase;
+        }
+        
+        .divider {
+            width: 0%;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.3) 50%, rgba(255,255,255,0) 100%);
+            margin: 32px auto;
+            opacity: 0;
+        }
+        
+        .loader {
+            width: 120px;
+            height: 2px;
+            background-color: #f5f5f5;
+            position: relative;
+            overflow: hidden;
+            margin: 40px auto 0;
+            border-radius: 4px;
+            opacity: 0;
+        }
+        
+        .loader::after {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #000, transparent);
+            animation: loading 1.5s infinite ease-in-out;
+            border-radius: 4px;
+        }
+        
+        .background-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.005) 70%, transparent 100%);
+            opacity: 0;
+        }
+        
+        .shape-1 {
+            width: 60vw;
+            height: 60vw;
+            top: -20%;
+            right: -20%;
+        }
+        
+        .shape-2 {
+            width: 40vw;
+            height: 40vw;
+            bottom: -10%;
+            left: -10%;
+        }
+        
+        .dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: #999;
+            opacity: 0;
+        }
+        
+        .cursor {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.04);
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        
+        .glitch-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.03) 0px,
+                rgba(0, 0, 0, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 3;
+        }
+        
+        @keyframes loading {
+            0% {
+                left: -30%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 4.5rem;
+            }
+            .sub-title {
+                font-size: 1.2rem;
+                letter-spacing: 6px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 3.5rem;
+            }
+            .sub-title {
+                font-size: 1rem;
+                letter-spacing: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="glitch-effect"></div>
+    
+    <div class="background-elements">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+    
+    <div class="container">
+        <h1 class="main-title">mrko.xyz</h1>
+        <div class="divider"></div>
+        <p class="sub-title">Coming Soon</p>
+        <div class="loader"></div>
+    </div>
+    
+    <p class="footer">© 2025</p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Create animated dot background
+            for (let i = 0; i < 50; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                dot.style.left = `${Math.random() * 100}%`;
+                dot.style.top = `${Math.random() * 100}%`;
+                dot.style.opacity = Math.random() * 0.5 + 0.1;
+                document.querySelector('.background-elements').appendChild(dot);
+            }
+            
+            // Main animation timeline
+            const tl = gsap.timeline({defaults: {ease: "power3.out"}});
+            
+            tl.fromTo(".shape", 
+                {opacity: 0, scale: 0.8}, 
+                {opacity: 1, scale: 1, duration: 2, stagger: 0.3, ease: "power2.inOut"})
+              .fromTo(".main-title", 
+                {y: 60, opacity: 0, scale: 0.95}, 
+                {y: 0, opacity: 1, scale: 1, duration: 1.6, ease: "elastic.out(1, 0.8)"}, 
+                "-=1.5")
+              .fromTo(".divider", 
+                {width: "0%", opacity: 0}, 
+                {width: "70%", opacity: 1, duration: 1.2, ease: "power2.inOut"}, 
+                "-=0.8")
+              .fromTo(".sub-title", 
+                {y: 20, opacity: 0, letterSpacing: "4px"}, 
+                {y: 0, opacity: 1, letterSpacing: "8px", duration: 1.2}, 
+                "-=0.9")
+              .fromTo(".loader", 
+                {opacity: 0, scale: 0.8, y: 10}, 
+                {opacity: 1, scale: 1, y: 0, duration: 0.8}, 
+                "-=0.7")
+              .fromTo(".footer", 
+                {opacity: 0, y: 10}, 
+                {opacity: 1, y: 0, duration: 0.8}, 
+                "-=0.5")
+              .fromTo(".glitch-effect", 
+                {opacity: 0}, 
+                {opacity: 0.2, duration: 0.5}, 
+                "-=0.8");
+            
+            // Random dot animation
+            gsap.to(".dot", {
+                y: "random(-20, 20)",
+                x: "random(-20, 20)",
+                duration: "random(3, 6)",
+                opacity: "random(0.1, 0.3)",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                stagger: {
+                    from: "random",
+                    amount: 2
+                }
+            });
+            
+            // Custom cursor effect
+            const cursor = document.querySelector('.cursor');
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.2
+                });
+                
+                if (cursor.style.display === 'none') {
+                    cursor.style.display = 'block';
+                }
+            });
+            
+            // Parallax effect on mousemove
+            document.addEventListener('mousemove', (e) => {
+                const xPos = (e.clientX / window.innerWidth - 0.5);
+                const yPos = (e.clientY / window.innerHeight - 0.5);
+                
+                gsap.to(".shape-1", {
+                    x: xPos * 30,
+                    y: yPos * 30,
+                    duration: 1
+                });
+                
+                gsap.to(".shape-2", {
+                    x: -xPos * 20,
+                    y: -yPos * 20,
+                    duration: 1
+                });
+                
+                gsap.to(".main-title", {
+                    x: xPos * 10,
+                    y: yPos * 10,
+                    duration: 1
+                });
+            });
+            
+            // Hover effect on the title
+            const mainTitle = document.querySelector('.main-title');
+            mainTitle.addEventListener('mouseenter', () => {
+                gsap.to('.main-title', {
+                    scale: 1.02, 
+                    letterSpacing: "-1px", 
+                    duration: 0.3, 
+                    ease: "power2.out"
+                });
+                gsap.to('.cursor', {
+                    scale: 1.5,
+                    duration: 0.3
+                });
+            });
+            
+            mainTitle.addEventListener('mouseleave', () => {
+                gsap.to('.main-title', {
+                    scale: 1, 
+                    letterSpacing: "-2px", 
+                    duration: 0.3, 
+                    ease: "power2.out"
+                });
+                gsap.to('.cursor', {
+                    scale: 1,
+                    duration: 0.3
+                });
+            });
+            
+            // Glitch effect occasionally
+            const glitchInterval = setInterval(() => {
+                if (Math.random() > 0.7) {
+                    const glitchTl = gsap.timeline();
+                    glitchTl.to(".glitch-effect", {
+                        opacity: 0.5,
+                        duration: 0.1
+                    })
+                    .to(".glitch-effect", {
+                        opacity: 0.2,
+                        duration: 0.1
+                    })
+                    .to(".main-title", {
+                        x: "random(-5, 5)",
+                        y: "random(-2, 2)",
+                        duration: 0.05
+                    })
+                    .to(".main-title", {
+                        x: 0,
+                        y: 0,
+                        duration: 0.05
+                    });
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
