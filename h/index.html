@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MRKO.XYZ</title>
+    <link rel="stylesheet" href="css/h.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-KJqfkQ1SrfUB9Tht8jA9RB5Dl7kXJ9PR6nJ7MkOvcfTGUgOuSL8ZeGQyT+i9PMGsTjVUX0HEQEUOGdlnWqXngw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <header>
+        <div class="logo">MRKO.XYZ</div>
+        <div class="header-right">
+          <div class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <button class="login-button">Log in</button>
+        </div>
+      </header>
+      <div class="content-wrapper">
+        <nav class="sidebar">
+          <ul>
+            <li><a href="/">Student Portal</a></li>
+            <li><a href="#snowday">Educator Portal</a></li>
+            <li><a href="#career">Projects</a></li>
+            <li><a href="#sora">Experiments</a></li>
+            <li class="more-option">
+              <a href="javascript:void(0);">More <i class="fa-solid fa-chevron-down"></i></a>
+              <ul class="more-links">
+                <li><a href="#news">[soon]</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <main>
+          <section class="chat-section">
+            <div class="chat-container">
+              <h1>What can I help with?</h1>
+              <div class="chat-input-container">
+                <div class="input-wrapper">
+                  <input type="text" id="userInput" autocomplete="off" />
+                  <span class="placeholder-overlay"></span>
+                </div>
+                <button id="sendButton"><i class="fa-solid fa-arrow-up"></i></button>
+              </div>
+              <div id="chatMessages" class="chat-messages"></div>
+            </div>
+            <div class="chat-options">
+              <button class="option-button">Search with Gemini</button>
+              <button class="option-button">Discuss a topic</button>
+              <button class="option-button">Latest AI news</button>
+              <button class="option-button">More</button>
+            </div>
+          </section>
+          <div class="scroll-indicator">
+            <i class="fa-solid fa-arrow-down"></i>
+            <span>Scroll to explore</span>
+          </div>
+          <section class="content-section" id="newsSection"></section>
+        </main>
+      </div>
+    </div>
+    <script src="js/h.js"></script>
+  </body>
+</html>
