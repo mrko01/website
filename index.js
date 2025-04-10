@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup, OAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   const firebaseConfig = {
@@ -11,61 +11,110 @@ document.addEventListener('DOMContentLoaded', () => {
     storageBucket: "mrko-xyz.appspot.com",
     messagingSenderId: "454712108707"
   };
+  
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getDatabase(app);
-  onAuthStateChanged(auth, user => { if (user) { window.location.href = '/h'; } });
+  
+  onAuthStateChanged(auth, user => {
+    if (user) window.location.href = '/h';
+  });
+  
+  let currentMode = "login";
   const togglePasswordButton = document.querySelector('.toggle-password');
   const passwordInput = document.getElementById('password');
-  if (togglePasswordButton && passwordInput) { togglePasswordButton.addEventListener('click', function() { const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password'; passwordInput.setAttribute('type', type); const icon = this.querySelector('i'); icon.className = type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'; }); }
+  if (togglePasswordButton && passwordInput) {
+    togglePasswordButton.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.querySelector('i').className = type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+    });
+  }
+  
   const loginForm = document.getElementById('login-form');
-  if (loginForm) {
-    loginForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const submitButton = loginForm.querySelector('button[type="submit"]');
-      const originalText = submitButton.innerHTML;
-      submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing In...';
-      submitButton.disabled = true;
-      try { await signInWithEmailAndPassword(auth, email, password); submitButton.innerHTML = '<i class="fa-solid fa-check"></i> Success!'; setTimeout(() => { window.location.href = '/h'; }, 1500); }
-      catch (error) { submitButton.innerHTML = originalText; submitButton.disabled = false; alert(error.message); }
+  const confirmPasswordGroup = document.getElementById('confirm-password-group');
+  const confirmPasswordInput = document.getElementById('confirm-password');
+  const heading = document.querySelector('h1');
+  const subtext = document.querySelector('p');
+  const submitButton = loginForm.querySelector('button[type="submit"]');
+  const registerLink = document.getElementById('register-link');
+  
+  loginForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = passwordInput.value;
+    submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+    submitButton.disabled = true;
+    try {
+      if (currentMode === "login") {
+        await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        const confirmPassword = confirmPasswordInput.value;
+        if (password !== confirmPassword) throw new Error("Passwords do not match");
+        await createUserWithEmailAndPassword(auth, email, password);
+      }
+      submitButton.innerHTML = '<i class="fa-solid fa-check"></i> Success!';
+      setTimeout(() => { window.location.href = '/h'; }, 1500);
+    } catch (error) {
+      submitButton.innerHTML = currentMode === "login" ? "Sign In" : "Register";
+      submitButton.disabled = false;
+      alert(error.message);
+    }
+  });
+  
+  registerLink.addEventListener('click', e => {
+    e.preventDefault();
+    if (currentMode === "login") {
+      currentMode = "register";
+      heading.innerText = "Create an Account";
+      subtext.innerText = "Enter your details to register your account";
+      confirmPasswordGroup.style.display = "block";
+      submitButton.innerText = "Register";
+      registerLink.innerText = "Already have an account? Sign In";
+    } else {
+      currentMode = "login";
+      heading.innerText = "Welcome Back!";
+      subtext.innerText = "Enter your credentials to access your account";
+      confirmPasswordGroup.style.display = "none";
+      submitButton.innerText = "Sign In";
+      registerLink.innerText = "Don't have an account? Register";
+    }
+  });
+  
+  document.getElementById('forgot-password-link').addEventListener('click', async e => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    if (!email) { alert("Please enter your email address for password reset."); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("Password reset email sent. Check your inbox.");
+    } catch (error) {
+      alert(error.message);
+    }
+  });
+  
+  document.getElementById('google-login').addEventListener('click', async () => {
+    const provider = new GoogleAuthProvider();
+    try { await signInWithPopup(auth, provider); } catch (error) { alert(error.message); }
+  });
+  
+  document.getElementById('apple-login').addEventListener('click', async () => {
+    const provider = new OAuthProvider('apple.com');
+    try { await signInWithPopup(auth, provider); } catch (error) { alert(error.message); }
+  });
+  
+  document.querySelectorAll('.form-control').forEach(input => {
+    input.addEventListener('focus', function() {
+      this.parentElement.querySelector('.input-icon').style.color = 'var(--primary-color)';
     });
-  }
-  const forgotPasswordLink = document.getElementById('forgot-password-link');
-  if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener('click', async e => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      if (!email) { alert("Please enter your email address for password reset."); return; }
-      try { await sendPasswordResetEmail(auth, email); alert("Password reset email sent. Check your inbox."); }
-      catch (error) { alert(error.message); }
+    input.addEventListener('blur', function() {
+      if (!this.value.trim()) {
+        this.parentElement.querySelector('.input-icon').style.color = 'var(--text-muted)';
+      }
     });
-  }
-  const googleLoginButton = document.getElementById('google-login');
-  if (googleLoginButton) {
-    googleLoginButton.addEventListener('click', async () => {
-      const provider = new GoogleAuthProvider();
-      try { await signInWithPopup(auth, provider); }
-      catch (error) { alert(error.message); }
-    });
-  }
-  const appleLoginButton = document.getElementById('apple-login');
-  if (appleLoginButton) {
-    appleLoginButton.addEventListener('click', async () => {
-      const provider = new OAuthProvider('apple.com');
-      try { await signInWithPopup(auth, provider); }
-      catch (error) { alert(error.message); }
-    });
-  }
-  const formControls = document.querySelectorAll('.form-control');
-  if (formControls.length) {
-    formControls.forEach(input => {
-      input.addEventListener('focus', function() { this.parentElement.querySelector('.input-icon').style.color = 'var(--primary-color)'; });
-      input.addEventListener('blur', function() { if (!this.value) { this.parentElement.querySelector('.input-icon').style.color = 'var(--text-muted)'; } });
-    });
-  }
-  const addRippleEffect = (elements) => {
+  });
+  
+  const addRippleEffect = elements => {
     elements.forEach(element => {
       element.addEventListener('mousedown', function(e) {
         const rect = element.getBoundingClientRect();
@@ -92,18 +141,21 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   };
+  
   addRippleEffect(document.querySelectorAll('.btn, .social-btn'));
+  
   const brandLogoElement = document.querySelector('.brand-logo');
-  if (brandLogoElement) {
-    brandLogoElement.addEventListener('click', function() {
-      this.classList.add('rotating');
-      setTimeout(() => { this.classList.remove('rotating'); }, 1000);
-    });
-  }
+  brandLogoElement && brandLogoElement.addEventListener('click', function() {
+    this.classList.add('rotating');
+    setTimeout(() => { this.classList.remove('rotating'); }, 1000);
+  });
+  
   document.body.addEventListener('mousemove', function(e) {
     const x = e.clientX / window.innerWidth;
     const y = e.clientY / window.innerHeight;
     const imageSection = document.querySelector('.image-section');
-    if (imageSection) { imageSection.style.background = `linear-gradient(${135 + x * 30}deg, var(--primary-color), var(--secondary-color))`; }
+    if (imageSection) {
+      imageSection.style.background = `linear-gradient(${135 + x * 30}deg, var(--primary-color), var(--secondary-color))`;
+    }
   });
 });
