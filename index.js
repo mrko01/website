@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const clearInputs = () => {
     document.getElementById('email').value = "";
     passwordInput.value = "";
-    if (confirmPasswordInput) confirmPasswordInput.value = "";
+    confirmPasswordInput.value = "";
   }
   loginForm.addEventListener('submit', async e => {
     e.preventDefault();
@@ -81,6 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
       heading.innerText = "Create an Account";
       subtext.innerText = "Enter your details to register your account";
       confirmPasswordGroup.style.display = "block";
+      confirmPasswordInput.disabled = false;
+      confirmPasswordInput.required = true;
+      confirmPasswordInput.name = "confirmPassword";
       submitButton.innerText = "Register";
       registerLink.innerText = "Already have an account? Sign In";
       clearInputs();
@@ -89,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
       heading.innerText = "Welcome Back!";
       subtext.innerText = "Enter your credentials to access your account";
       confirmPasswordGroup.style.display = "none";
+      confirmPasswordInput.disabled = true;
+      confirmPasswordInput.required = false;
+      confirmPasswordInput.removeAttribute("name");
       submitButton.innerText = "Sign In";
       registerLink.innerText = "Don't have an account? Register";
       clearInputs();
@@ -197,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
     okButton.style.color = '#fff';
     okButton.addEventListener('click', async () => {
       modalOverlay.remove();
-      try { await signOut(auth); } catch (error) {}
+      try { await signOut(auth); } catch {}
       window.location.reload();
     });
     btnContainer.appendChild(okButton);
