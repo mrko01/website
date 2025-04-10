@@ -322,11 +322,7 @@ p {
 }
 
 .social-btn:nth-child(2) i {
-  color: #4267B2;
-}
-
-.social-btn:nth-child(3) i {
-  color: #1DA1F2;
+  color: #000000;
 }
 
 .register-link {
