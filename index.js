@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       confirmPasswordInput.required = true;
       confirmPasswordInput.name = "confirmPassword";
       submitButton.innerText = "Register";
-      registerLink.innerText = "Already have an account? Sign In";
+      registerLink.innerText = "Sign In";
       clearInputs();
     } else {
       currentMode = "login";
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       confirmPasswordInput.required = false;
       confirmPasswordInput.removeAttribute("name");
       submitButton.innerText = "Sign In";
-      registerLink.innerText = "Don't have an account? Register";
+      registerLink.innerText = "Register";
       clearInputs();
     }
   });
