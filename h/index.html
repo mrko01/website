@@ -1,67 +1,176 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MRKO.XYZ</title>
-    <link rel="stylesheet" href="/css/h.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  </head>
-  <body>
-    <div class="main-container">
-      <header>
-        <div class="logo">MRKO.XYZ</div>
-        <div class="header-right">
-          <div class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <button class="login-button">Log in</button>
-        </div>
-      </header>
-      <div class="content-wrapper">
-        <nav class="sidebar">
-          <ul>
-            <li><a href="/student">Student Portal</a></li>
-            <li><a href="/educator">Educator Portal</a></li>
-            <li><a href="/p">Projects</a></li>
-            <li><a href="/">[something]</a></li>
-            <li class="more-option">
-              <a href="javascript:void(0);">More <i class="fa-solid fa-chevron-down"></i></a>
-              <ul class="more-links">
-                <li><a href="#news">[soon]</a></li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-        <main>
-          <section class="chat-section">
-            <div class="chat-container">
-              <h1>What can I help with?</h1>
-              <div class="chat-input-container">
-                <div class="input-wrapper">
-                  <input type="text" id="userInput" autocomplete="off" />
-                  <span class="placeholder-overlay"></span>
-                </div>
-                <button id="sendButton"><i class="fa-solid fa-arrow-up"></i></button>
-              </div>
-              <div id="chatMessages" class="chat-messages"></div>
-            </div>
-            <div class="chat-options">
-              <button class="option-button">Search with Gemini</button>
-              <button class="option-button">Discuss a topic</button>
-              <button class="option-button">Latest AI news</button>
-              <button class="option-button">More</button>
-            </div>
-          </section>
-          <div class="scroll-indicator">
-            <i class="fa-solid fa-arrow-down"></i>
-            <span>Scroll to explore</span>
-          </div>
-          <section class="content-section" id="newsSection"></section>
-        </main>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mrko.xyz | AI Projects</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Product+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="loader">
+    <div class="loader-content">
+      <h1>mrko.xyz</h1>
+      <div class="loader-bar">
+        <div class="loader-progress"></div>
       </div>
     </div>
-    <script src="/js/h.js"></script>
-  </body>
+  </div>
+
+  <div id="particles-js"></div>
+  
+  <header>
+    <div class="logo">mrko.xyz</div>
+    <nav>
+      <ul>
+        <li><a href="#intro"><span>Overview</span></a></li>
+        <li><a href="#projects"><span>Projects</span></a></li>
+        <li><a href="#contact"><span>Contact</span></a></li>
+      </ul>
+    </nav>
+    <div class="theme-toggle">
+      <button id="theme-switch" aria-label="Toggle dark mode">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section id="intro" class="section active">
+      <div class="content">
+        <h1 class="title">mrko.xyz</h1>
+        <p class="subtitle">Creating tools that make artificial intelligence accessible, powerful, and practical.</p>
+        <div class="scroll-hint">
+          <span>View projects</span>
+          <div class="scroll-arrow"><i class="fa-solid fa-chevron-down"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="content">
+        <div class="project-tabs">
+          <div class="tab active" data-project="neuro-craft">NeuroCraft</div>
+          <div class="tab" data-project="sentient-chat">Sentient Chat</div>
+          <div class="tab" data-project="neural-sync">Neural Sync</div>
+        </div>
+
+        <div class="project-container">
+          <div class="project active" id="neuro-craft">
+            <div class="project-info">
+              <div class="project-header">
+                <h2 class="project-title">NeuroCraft</h2>
+                <span class="project-badge">New</span>
+              </div>
+              <p class="project-description">An AI-powered content creation studio that transforms text prompts into stunning visual compositions.</p>
+              <div class="project-meta">
+                <div class="meta-item">
+                  <span class="meta-label"><i class="fa-regular fa-calendar"></i> Released</span>
+                  <span class="meta-value">May 2024</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label"><i class="fa-solid fa-code-commit"></i> Last Update</span>
+                  <span class="meta-value">April 29, 2024</span>
+                </div>
+              </div>
+              <div class="announcement">
+                <p class="announcement-text">New integration with DALL-E 3 coming next month</p>
+              </div>
+              <a href="#" class="project-link">Visit Project <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="model-container" id="model-1"></div>
+          </div>
+
+          <div class="project" id="sentient-chat">
+            <div class="project-info">
+              <div class="project-header">
+                <h2 class="project-title">Sentient Chat</h2>
+              </div>
+              <p class="project-description">A conversational AI platform that delivers human-like interactions with advanced context understanding.</p>
+              <div class="project-meta">
+                <div class="meta-item">
+                  <span class="meta-label"><i class="fa-regular fa-calendar"></i> Released</span>
+                  <span class="meta-value">February 2024</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label"><i class="fa-solid fa-code-commit"></i> Last Update</span>
+                  <span class="meta-value">April 15, 2024</span>
+                </div>
+              </div>
+              <div class="announcement">
+                <p class="announcement-text">Voice interface beta now available for early adopters</p>
+              </div>
+              <a href="#" class="project-link">Visit Project <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="model-container" id="model-2"></div>
+          </div>
+
+          <div class="project" id="neural-sync">
+            <div class="project-info">
+              <div class="project-header">
+                <h2 class="project-title">Neural Sync</h2>
+              </div>
+              <p class="project-description">A machine learning system that synchronizes and harmonizes multi-model data for predictive analysis.</p>
+              <div class="project-meta">
+                <div class="meta-item">
+                  <span class="meta-label"><i class="fa-regular fa-calendar"></i> Released</span>
+                  <span class="meta-value">March 2024</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label"><i class="fa-solid fa-code-commit"></i> Last Update</span>
+                  <span class="meta-value">May 1, 2024</span>
+                </div>
+              </div>
+              <div class="announcement">
+                <p class="announcement-text">Enterprise solution launching June 2024</p>
+              </div>
+              <a href="#" class="project-link">Visit Project <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="model-container" id="model-3"></div>
+          </div>
+        </div>
+
+        <div class="project-nav">
+          <button class="nav-button prev" disabled>
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="nav-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+          </div>
+          <button class="nav-button next">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="content">
+        <h2>Let's connect</h2>
+        <p>Interested in collaborating on the next breakthrough AI project?</p>
+        <a href="mailto:hello@mrko.xyz" class="contact-button">
+          <i class="fa-regular fa-envelope"></i> Get in touch
+        </a>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-github"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
 </html>
