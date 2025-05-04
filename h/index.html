@@ -15,6 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Product+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Cutting-edge AI projects and solutions by mrko.xyz">
+  <meta name="theme-color" content="#4285f4">
 </head>
 <body>
   <div class="loader">
@@ -23,32 +25,40 @@
       <div class="loader-bar">
         <div class="loader-progress"></div>
       </div>
+      <p class="loading-text">Loading assets...</p>
     </div>
   </div>
 
-  <div id="particles-js"></div>
+  <div id="particles-js" aria-hidden="true"></div>
   
   <header>
     <div class="logo">mrko.xyz</div>
-    <nav>
-      <ul>
-        <li><a href="#intro"><span>Overview</span></a></li>
-        <li><a href="#projects"><span>Projects</span></a></li>
-        <li><a href="#contact"><span>Contact</span></a></li>
-      </ul>
-    </nav>
     <div class="theme-toggle">
       <button id="theme-switch" aria-label="Toggle dark mode">
         <i class="fa-solid fa-moon"></i>
+        <span class="theme-label">Dark</span>
       </button>
     </div>
   </header>
 
   <main>
     <section id="intro" class="section active">
-      <div class="content">
-        <h1 class="title">mrko.xyz</h1>
-        <p class="subtitle">Creating tools that make artificial intelligence accessible, powerful, and practical.</p>
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="title">mrko.xyz</h1>
+            <p class="subtitle">Creating tools that make artificial intelligence accessible, powerful, and practical.</p>
+            <div class="action-buttons">
+              <a href="#projects" class="primary-button">
+                <span>Explore Projects</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="visual-container" id="intro-visual"></div>
+          </div>
+        </div>
         <div class="scroll-hint">
           <span>View projects</span>
           <div class="scroll-arrow"><i class="fa-solid fa-chevron-down"></i></div>
@@ -85,6 +95,11 @@
               <div class="announcement">
                 <p class="announcement-text">New integration with DALL-E 3 coming next month</p>
               </div>
+              <div class="project-features">
+                <span class="feature-badge">Text-to-Image</span>
+                <span class="feature-badge">Style Transfer</span>
+                <span class="feature-badge">Image Editing</span>
+              </div>
               <a href="#" class="project-link">Visit Project <i class="fa-solid fa-arrow-right"></i></a>
             </div>
             <div class="model-container" id="model-1"></div>
@@ -108,6 +123,11 @@
               </div>
               <div class="announcement">
                 <p class="announcement-text">Voice interface beta now available for early adopters</p>
+              </div>
+              <div class="project-features">
+                <span class="feature-badge">Conversational AI</span>
+                <span class="feature-badge">Voice Interface</span>
+                <span class="feature-badge">Context Memory</span>
               </div>
               <a href="#" class="project-link">Visit Project <i class="fa-solid fa-arrow-right"></i></a>
             </div>
@@ -133,6 +153,11 @@
               <div class="announcement">
                 <p class="announcement-text">Enterprise solution launching June 2024</p>
               </div>
+              <div class="project-features">
+                <span class="feature-badge">Predictive Analysis</span>
+                <span class="feature-badge">Data Visualization</span>
+                <span class="feature-badge">Real-time Processing</span>
+              </div>
               <a href="#" class="project-link">Visit Project <i class="fa-solid fa-arrow-right"></i></a>
             </div>
             <div class="model-container" id="model-3"></div>
@@ -157,19 +182,53 @@
 
     <section id="contact" class="section">
       <div class="content">
-        <h2>Let's connect</h2>
-        <p>Interested in collaborating on the next breakthrough AI project?</p>
-        <a href="mailto:hello@mrko.xyz" class="contact-button">
-          <i class="fa-regular fa-envelope"></i> Get in touch
-        </a>
+        <div class="contact-container">
+          <div class="contact-info">
+            <h2>Let's connect</h2>
+            <p>Interested in collaborating on the next breakthrough AI project?</p>
+            <div class="contact-form">
+              <div class="form-group">
+                <input type="email" placeholder="Your email" class="contact-input" aria-label="Your email">
+              </div>
+              <div class="form-group">
+                <textarea placeholder="Your message" class="contact-input" aria-label="Your message"></textarea>
+              </div>
+              <button class="contact-button">
+                <i class="fa-regular fa-paper-plane"></i> Send Message
+              </button>
+            </div>
+          </div>
+          <div class="contact-visual" id="contact-visual"></div>
+        </div>
         <div class="social-links">
-          <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
-          <a href="#" class="social-link"><i class="fa-brands fa-github"></i></a>
-          <a href="#" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" class="social-link" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="social-link" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="#" class="social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
         </div>
       </div>
     </section>
   </main>
+
+  <nav class="floating-nav" aria-label="Floating navigation">
+    <div class="nav-container">
+      <a href="#intro" class="nav-item" data-label="Home">
+        <div class="icon-container">
+          <i class="fa-solid fa-home"></i>
+        </div>
+      </a>
+      <a href="#projects" class="nav-item" data-label="Projects">
+        <div class="icon-container">
+          <i class="fa-solid fa-layer-group"></i>
+        </div>
+      </a>
+      <a href="#contact" class="nav-item" data-label="Contact">
+        <div class="icon-container">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+      </a>
+      <div class="nav-indicator"></div>
+    </div>
+  </nav>
 
   <script src="/js/h.js"></script>
 </body>
