@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mrko.xyz/sites - Create and share static sites instantly</title>
+  <link rel="stylesheet" href="../css/sites.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <!-- Prism.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/8662/8662449.png" type="image/x-icon">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="branding">
+          <div class="logo-container">
+            <i class="fas fa-code-branch logo-icon"></i>
+            <h1>mrko.xyz/sites</h1>
+          </div>
+          <p>Create and share static HTML sites instantly</p>
+        </div>
+        <div class="actions">
+          <button id="load-example" class="btn btn-outline">
+            <i class="fas fa-lightbulb"></i> Load Example
+          </button>
+          <button id="clear-all" class="btn btn-outline">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main class="container">
+    <div class="editor-preview-container">
+      <div class="editor-section">
+        <div class="panel-header">
+          <h2><i class="fas fa-code"></i> Code Editor</h2>
+          <div class="panel-actions">
+            <button id="generate-url" class="btn btn-primary">
+              <i class="fas fa-link"></i> Generate URL
+            </button>
+            <button id="copy-url" class="btn btn-outline" disabled>
+              <i class="fas fa-copy"></i> Copy
+            </button>
+          </div>
+        </div>
+        
+        <div class="editor-tabs">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="html">
+              <i class="fab fa-html5"></i> HTML
+            </button>
+            <button class="tab-btn" data-tab="css">
+              <i class="fab fa-css3-alt"></i> CSS
+            </button>
+            <button class="tab-btn" data-tab="js">
+              <i class="fab fa-js"></i> JavaScript
+            </button>
+          </div>
+          <div class="tab-content active" id="html-editor">
+            <textarea id="html-code" placeholder="Enter HTML code here..." spellcheck="false"></textarea>
+          </div>
+          <div class="tab-content" id="css-editor">
+            <textarea id="css-code" placeholder="Enter CSS code here..." spellcheck="false"></textarea>
+          </div>
+          <div class="tab-content" id="js-editor">
+            <textarea id="js-code" placeholder="Enter JavaScript code here..." spellcheck="false"></textarea>
+          </div>
+        </div>
+        
+        <div id="url-display" class="hidden">
+          <p>Your generated URL:</p>
+          <div class="url-container">
+            <code id="generated-url"></code>
+            <button id="copy-icon" class="icon-btn" title="Copy URL">
+              <i class="fas fa-copy"></i>
+            </button>
+            <a id="visit-site" href="#" target="_blank" class="icon-btn" title="Visit Site">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div id="custom-url" class="hidden">
+          <p>Create custom URL: <span class="base-url">mrko.xyz/sites/</span></p>
+          <div class="custom-url-container">
+            <input type="text" id="custom-url-input" placeholder="Enter custom URL (e.g., mysite)" maxlength="20">
+            <button id="check-url" class="btn btn-sm btn-outline" disabled>
+              <i class="fas fa-check"></i> Check Availability
+            </button>
+          </div>
+          <div class="url-info hidden" id="url-status"></div>
+          <div class="url-cooldown hidden">
+            <i class="fas fa-clock"></i> You can check again in <span id="cooldown-timer">10</span> seconds
+          </div>
+        </div>
+      </div>
+      
+      <div class="preview-section">
+        <div class="panel-header">
+          <h2><i class="fas fa-eye"></i> Preview</h2>
+          <div class="panel-actions">
+            <button id="refresh-preview" class="btn btn-outline">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+            <div class="device-selector">
+              <button class="device-btn active" data-device="desktop" title="Desktop View">
+                <i class="fas fa-desktop"></i>
+              </button>
+              <button class="device-btn" data-device="tablet" title="Tablet View">
+                <i class="fas fa-tablet-alt"></i>
+              </button>
+              <button class="device-btn" data-device="mobile" title="Mobile View">
+                <i class="fas fa-mobile-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="preview-container desktop">
+          <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin" title="Preview"></iframe>
+          <div id="loading-preview" class="hidden">
+            <div class="spinner"></div>
+            <p>Updating preview...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="saved-sites-section">
+      <div class="panel-header">
+        <h2><i class="fas fa-folder"></i> Your Saved Sites</h2>
+        <div class="panel-actions">
+          <input type="text" id="search-sites" placeholder="Search sites..." class="search-input">
+          <button id="clear-sites" class="btn btn-sm btn-outline">
+            <i class="fas fa-trash"></i> Clear All
+          </button>
+        </div>
+      </div>
+      <div id="sites-list" class="sites-grid">
+        <!-- Saved sites will be populated here -->
+        <div id="no-sites" class="no-sites-message">
+          <i class="fas fa-folder-open"></i>
+          <p>No saved sites yet. Generate a URL to save your site.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2025 mrko.xyz</p>
+        <div class="footer-links">
+          <a href="#" title="About Us"><i class="fas fa-info-circle"></i> About</a>
+          <a href="#" title="Terms of Service"><i class="fas fa-file-alt"></i> Terms</a>
+          <a href="#" title="Privacy Policy"><i class="fas fa-shield-alt"></i> Privacy</a>
+          <a href="#" title="GitHub Repository"><i class="fab fa-github"></i> GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Toast Notifications -->
+  <div id="toast-container"></div>
+  
+  <!-- Confirmation Modal -->
+  <div id="confirm-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Confirm Action</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-message">Are you sure you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-cancel" class="btn btn-outline">Cancel</button>
+        <button id="modal-confirm" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- CDN Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  
+  <!-- Main Script -->
+  <script src="../js/sites.js"></script>
+</body>
+</html>
